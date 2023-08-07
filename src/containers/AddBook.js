@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
+
+import FlipMove from 'react-flip-move'
+
 import { addBook } from '../redux/actions/actionAddBooks'
 
 const AddBook = ({ libraryData, addBook }) => {
@@ -19,6 +22,36 @@ const AddBook = ({ libraryData, addBook }) => {
     // vider le input
     setNewData(initialeState)
   }
+
+  const displayDtata =
+    libraryData.length > 0 ? (
+      <FlipMove>
+        {libraryData.map((data) => {
+          return (
+            <li
+              key={data.id}
+              className="list-group-item list-groupitem-light d-flex justify-content-between align-items-center "
+            >
+              <span>
+                <strong>Title :</strong> {data.title}
+              </span>
+              <span>
+                <strong>Author :</strong> {data.author}
+              </span>
+              <span className="btn btn-danger">X</span>
+            </li>
+          )
+        })}
+      </FlipMove>
+    ) : (
+      <p className="text-center">Aucune data à afficher</p>
+    )
+
+  const deleteAllBooksBtn = libraryData.length > 0 && (
+    <button className="btn btn-danger mt-4 mb-5">
+      Effacer tous les livres
+    </button>
+  )
 
   return (
     <main role="main">
@@ -65,15 +98,9 @@ const AddBook = ({ libraryData, addBook }) => {
       <div className="container" style={{ minHeight: '200px' }}>
         <div className="row">
           <div className="clo-md-12">
-            <ul className="list-group">
-              <li className="list-group-item list-groupitem-light d-flex juystify-content-between">
-                Livre enregristré ici
-              </li>
-            </ul>
+            <ul className="list-group">{displayDtata}</ul>
             <div className="d-flex justify-content-center">
-              <button className="btn btn-danger mt-4 mb-5">
-                Effacer tous les livres
-              </button>
+              {deleteAllBooksBtn}
             </div>
           </div>
         </div>
