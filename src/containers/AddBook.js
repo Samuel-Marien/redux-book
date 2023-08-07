@@ -1,6 +1,10 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { addBook } from '../redux/actions/actionAddBooks'
 
-const AddBook = () => {
+const AddBook = ({ libraryData, addBook }) => {
+  console.log(libraryData)
+
   const initialeState = {
     title: '',
     author: ''
@@ -10,6 +14,10 @@ const AddBook = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(newData)
+    addBook(newData)
+
+    // vider le input
+    setNewData(initialeState)
   }
 
   return (
@@ -74,4 +82,16 @@ const AddBook = () => {
   )
 }
 
-export default AddBook
+const mapStateToProps = (state) => {
+  return {
+    libraryData: state.library
+  }
+}
+
+const addDispatchToProps = (dispatch) => {
+  return {
+    addBook: (param) => dispatch(addBook(param))
+  }
+}
+
+export default connect(mapStateToProps, addDispatchToProps)(AddBook)
