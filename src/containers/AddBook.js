@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 
 import FlipMove from 'react-flip-move'
 
-import { addBook } from '../redux/actions/actionAddBooks'
+import { addBook, deleteBook } from '../redux/actions/actionAddBooks'
 
-const AddBook = ({ libraryData, addBook }) => {
+const AddBook = ({ libraryData, addBook, deleteBook }) => {
   console.log(libraryData)
 
   const initialeState = {
@@ -26,9 +26,10 @@ const AddBook = ({ libraryData, addBook }) => {
   const displayDtata =
     libraryData.length > 0 ? (
       <FlipMove>
-        {libraryData.map((data) => {
+        {libraryData.map((data, index) => {
           return (
             <li
+              // key={index}
               key={data.id}
               className="list-group-item list-groupitem-light d-flex justify-content-between align-items-center "
             >
@@ -38,7 +39,12 @@ const AddBook = ({ libraryData, addBook }) => {
               <span>
                 <strong>Author :</strong> {data.author}
               </span>
-              <span className="btn btn-danger">X</span>
+              <span
+                onClick={() => deleteBook(data.id)}
+                className="btn btn-danger"
+              >
+                X
+              </span>
             </li>
           )
         })}
@@ -117,7 +123,8 @@ const mapStateToProps = (state) => {
 
 const addDispatchToProps = (dispatch) => {
   return {
-    addBook: (param) => dispatch(addBook(param))
+    addBook: (param) => dispatch(addBook(param)),
+    deleteBook: (id) => dispatch(deleteBook(id))
   }
 }
 
