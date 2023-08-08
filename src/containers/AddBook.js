@@ -3,9 +3,13 @@ import { connect } from 'react-redux'
 
 import FlipMove from 'react-flip-move'
 
-import { addBook, deleteBook } from '../redux/actions/actionAddBooks'
+import {
+  addBook,
+  deleteBook,
+  deleteAllBooks
+} from '../redux/actions/actionAddBooks'
 
-const AddBook = ({ libraryData, addBook, deleteBook }) => {
+const AddBook = ({ libraryData, addBook, deleteBook, deleteAllBooks }) => {
   console.log(libraryData)
 
   const initialeState = {
@@ -54,7 +58,10 @@ const AddBook = ({ libraryData, addBook, deleteBook }) => {
     )
 
   const deleteAllBooksBtn = libraryData.length > 0 && (
-    <button className="btn btn-danger mt-4 mb-5">
+    <button
+      onClick={() => deleteAllBooks()}
+      className="btn btn-danger mt-4 mb-5"
+    >
       Effacer tous les livres
     </button>
   )
@@ -124,7 +131,8 @@ const mapStateToProps = (state) => {
 const addDispatchToProps = (dispatch) => {
   return {
     addBook: (param) => dispatch(addBook(param)),
-    deleteBook: (id) => dispatch(deleteBook(id))
+    deleteBook: (id) => dispatch(deleteBook(id)),
+    deleteAllBooks: () => dispatch(deleteAllBooks())
   }
 }
 

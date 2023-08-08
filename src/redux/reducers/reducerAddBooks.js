@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 
-import { ADD_BOOKS, DELETE_BOOK } from '../constants'
+import { ADD_BOOKS, DELETE_BOOK, DELETE_ALL_BOOKS } from '../constants'
 
 const initialState = {
   books: []
@@ -33,6 +33,10 @@ const reducerAddBooks = (state = initialState.books, action) => {
       return state
     case DELETE_BOOK:
       state = removeDataById(state, action.payload)
+      localStorage.setItem('booksData', JSON.stringify(state))
+      return state
+    case DELETE_ALL_BOOKS:
+      state = []
       localStorage.setItem('booksData', JSON.stringify(state))
       return state
     default:
