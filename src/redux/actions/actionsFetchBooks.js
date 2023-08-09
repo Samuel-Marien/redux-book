@@ -25,7 +25,7 @@ export const fetchBooks = (title) => {
     dispatch(fetchBooksLoading())
     axios
       .get(
-        `https://www.googleapis.com/books/v1/volumes?q=${title}&maxResults=20`
+        `https://www.googleapis.com/books/v1/volumes?q=${title}&maxResults=20&key=AIzaSyCXd6utlgJ3WRMoXUKXDsC8nnnYEe4RIUE`
       )
       .then((res) => {
         console.log(res)
