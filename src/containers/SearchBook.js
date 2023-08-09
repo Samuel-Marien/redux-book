@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { fetchBooks } from '../redux/actions/actionsFetchBooks'
+import { addBook } from '../redux/actions/actionAddBooks'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+toast.configure()
 
 const SearchBook = () => {
   const [title, setTitle] = useState('')
@@ -17,11 +21,18 @@ const SearchBook = () => {
     dispatch(fetchBooks(title))
   }
 
+  const handleSaveBook = (title, author) => {
+    const bookToSave = { title, author }
+    dispatch(addBook(bookToSave))
+    toast.info('Livre ajouté avec succès !', {
+      position: toast.POSITION.BOTTOM_RIGHT
+    })
+  }
+
   const displayFetchBooks = state.isLoading ? (
     <div className="d-flex justify-content-center">
-      <div className="spinner-boer text-info " role="status">
-        <span className="sr-only">Loading...</span>
-      </div>
+      <div className="spinner-border text-info " role="status"></div>
+      <span className="sr-only">Loading...</span>
     </div>
   ) : state.error !== '' ? (
     <p>{state.error}</p>
@@ -66,7 +77,14 @@ const SearchBook = () => {
               >
                 Plus d'infos
               </a>
-              <button className="btn btn-outline-secondary">Save</button>
+              <button
+                onClick={() =>
+                  handleSaveBook(data.volumeInfo.title, data.volumeInfo.authors)
+                }
+                className="btn btn-outline-secondary"
+              >
+                Save
+              </button>
             </div>
           </div>
         </div>
@@ -104,15 +122,7 @@ const SearchBook = () => {
         </div>
       </div>
       <div className="container" style={{ minHeight: '200px' }}>
-        <div id="accordion">
-          {/* <div className="card mb-2">
-            <div className="card-header"></div>
-            <div className="collapse" data-parent="accordion">
-              <div className="card-body"></div>
-            </div>
-          </div> */}
-          {displayFetchBooks}
-        </div>
+        <div id="accordion">{displayFetchBooks}</div>
       </div>
     </main>
   )
